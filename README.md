@@ -8,13 +8,13 @@ Very simple Azure Data Factory is created using Terraform. The Data Factory copi
 
 The following resources are created by Terraform:
 
-- Resource Group
+* Resource Group
 * Azure Key Vault
 * Storage Account and Blob Container (csv file containing the source is uploaded to the container)
 * MS SQL Database with SQL Server
 * Azure Data Factory and Pipeline with Linked Services to the Blob and MS SQL and also related Datasets
 
-User needs to create SQL Table (in \configdata\table.sql) to SQL Server using the PowerShell script that is located in \scripts\executesql.ps1. Script gets the SQL Database connection string from the Key Vault. User needs also to create copy object in Data Factory Pipeline by connecting the related datasets to the object.
+User needs to create SQL Table (in `\configdata\table.sql`) to SQL Server using the PowerShell script that is located in `\scripts\executesql.ps1`. Script gets the SQL Database connection string from the Key Vault. User needs also to create copy object in Data Factory Pipeline by connecting the related datasets to the object.
 
 ## Description of the Terraform script
 Script is modular so that creation of each resources are done in own modules. Please, browse to the each module to see its description in README.md.
