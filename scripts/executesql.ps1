@@ -16,8 +16,8 @@
     Indicates the name of the connection string in the Key Vault
 
     .EXAMPLE
-    PS> executesql -scriptFile .\createtable.sql
-#>
+    PS> executesql -scriptFile .\createtable.sql -connectionStringKey "sqlconnectionstring"
+ #>
 
 
 param(
