@@ -31,7 +31,7 @@ At the end of the deployment, the script outputs the following data for the user
 * `sql_secret_key_connectionstring` - Name of the Secrwet in the Key Vault that contains SQL DB connection string
 
 ## Prerequisites
-User needs to create own Service Principal (Application registration) for Terraform in the Azure Subscription. See more from [Register a client application in Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app)<br>
+User needs to create own Service Principal (Application registration) for Terraform in the Azure Subscription. See more from [Register a client application in Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app).<br>
 
 The following Windows Environment Variables are needed to be created before applying the Terraform code:<br>
 
