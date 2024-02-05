@@ -32,8 +32,8 @@ module "StorageAccount" {
 # with your home IP address.
 module "SqlDatabase" {
   source          = "./SqlDatabase"
-  name_construct  = "DataFactoryDemo"
-  region          = "West Europe"
+  name_construct  = var.env_name
+  region          = var.azure_region
   rg_name         = module.ResourceGroup.rg_out_name
   sql_db_username = var.sql_db_username
   az_keyvalt_id   = module.KeyVault.azure_kv_id
