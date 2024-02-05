@@ -26,7 +26,7 @@ At the end of the deployment, the script outputs the following data for the user
 * `storage_account_name` - Name of the created Storage Account
 * `blob_container_name` - Name of the Blob Container
 * `blob_file_name` - Name of a file uploaded to the Blob
-* `sql_servcer_name` - Name of the created MS SQL Server
+* `sql_server_name` - Name of the created MS SQL Server
 * `sql_secret_key_pwd` - Name of the Secret in the Key Vault that contains randomized SQL DB Password to access the database by the user
 * `sql_secret_key_connectionstring` - Name of the Secrwet in the Key Vault that contains SQL DB connection string
 
