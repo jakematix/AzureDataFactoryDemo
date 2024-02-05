@@ -19,11 +19,6 @@ output "blob_file_name" {
   description = "Name of the file in the Blob"
 }
 
-output "azure_keyvault_id" {
-  value       = module.KeyVault.azure_kv_id
-  description = "Azure Key Vault Id"
-}
-
 output "sql_server_name" {
   value       = module.SqlDatabase.sql_server_name
   description = "SQL Server Name"
