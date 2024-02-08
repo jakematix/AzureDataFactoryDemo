@@ -1,5 +1,5 @@
 CREATE TABLE [dbo].[AverageTemps] (
-    [Dt] [varchar](50),
+    [dt] [varchar](50),
     [AverageTemperature] [decimal](10,3),
     [AverageTemperatureUncertainty] [decimal](10,3),
     [City] [varchar](100),
