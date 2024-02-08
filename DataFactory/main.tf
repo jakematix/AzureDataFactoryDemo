@@ -61,12 +61,9 @@ resource "azurerm_data_factory_dataset_delimited_text" "csvfile" {
   }
 
   column_delimiter    = ","
-  row_delimiter       = "NEW"
-  encoding            = "UTF-8"
-  quote_character     = "x"
-  escape_character    = "f"
+  quote_character     = "\""
+  escape_character    = "\\"
   first_row_as_header = true
-  null_value          = "NULL"
 }
 
 # Create link to SQL Database
