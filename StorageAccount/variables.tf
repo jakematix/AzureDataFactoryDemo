@@ -13,19 +13,14 @@ variable "region" {
   description = "Azure region name"
 }
 
-variable "container_name" {
-  type        = string
-  description = "Container name in the Azure Blob storage"
+variable "vnet_id" {
+    type = string
+    description = "Virtual Network Id"
 }
 
-variable "blobname" {
-  type        = string
-  description = "Name of the file in the Blob"
-}
-
-variable "sourcepath" {
-  type        = string
-  description = "Path to the file to be uploaded to the Blob"
+variable "subnet_id" {
+  type = string
+  description = "Subnet Id"
 }
 
 variable "az_keyvault_id" {
