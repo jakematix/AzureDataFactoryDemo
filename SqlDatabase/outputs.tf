@@ -10,6 +10,11 @@ output "sql_server_name" {
   description = "Name of the SQL Server that was created"
 }
 
+output "sql_server_id" {
+  value = resource.azurerm_mssql_server.sqlserver.id
+  description = "Id of the SQL Server that was created"
+}
+
 # Outputs secret name in the Key Vault that contains SQL connection string
 output "sql_connection_string_kv_secret_name" {
   value       = resource.azurerm_key_vault_secret.sql_connection_string.name
