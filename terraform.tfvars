@@ -1,2 +1,2 @@
 env_name     = "DataFactoryDemo"
-azure_region = "West Europe"
+azure_region = "East US"
