@@ -14,12 +14,12 @@ variable "region" {
 }
 
 variable "vnet_id" {
-    type = string
-    description = "Virtual Network Id"
+  type        = string
+  description = "Virtual Network Id"
 }
 
 variable "subnet_id" {
-  type = string
+  type        = string
   description = "Subnet Id"
 }
 
