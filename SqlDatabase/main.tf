@@ -19,7 +19,7 @@ resource "azurerm_key_vault_secret" "sql_password" {
   key_vault_id = var.az_keyvalt_id
 }
 
-# Create a Private DNS Zone for private endpoint to Blob
+# Create a Private DNS Zone for private endpoint to SQL server
 resource "azurerm_private_dns_zone" "priv_dns_zone" {
   name                = "privatelink.database.windows.net"
   resource_group_name = var.rg_name
@@ -28,11 +28,11 @@ resource "azurerm_private_dns_zone" "priv_dns_zone" {
 
 # Create Virtual Network link for the zone
 resource "azurerm_private_dns_zone_virtual_network_link" "dns_zone_vlink" {
-  name                  = "dns-link"
+  name                  = "dns-link-sql"
   resource_group_name   = var.rg_name
   private_dns_zone_name = azurerm_private_dns_zone.priv_dns_zone.name
   virtual_network_id    = var.vnet_id
-  depends_on            = [ azurerm_private_dns_zone.priv_dns_zone ]
+  depends_on            = [azurerm_private_dns_zone.priv_dns_zone]
 }
 
 
@@ -51,9 +51,9 @@ resource "azurerm_mssql_server" "sqlserver" {
 }
 
 resource "azurerm_mssql_database" "sqldatabase" {
-  name                         = "${var.name_construct}SQL"
-  server_id                    = azurerm_mssql_server.sqlserver.id
-  collation                    = "SQL_Latin1_General_CP1_CI_AS"
+  name      = "${var.name_construct}SQL"
+  server_id = azurerm_mssql_server.sqlserver.id
+  collation = "SQL_Latin1_General_CP1_CI_AS"
 
   auto_pause_delay_in_minutes = 60
   max_size_gb                 = 1
@@ -75,21 +75,21 @@ resource "azurerm_key_vault_secret" "sql_connection_string" {
 
 # Creation of the Private Endpoint in the given subnet
 resource "azurerm_private_endpoint" "vm_sql_private_endpoint" {
-    name                             = "VM-SQL-Private-Endpoint"
-    location                         = var.region
-    resource_group_name              = var.rg_name
-    subnet_id                        = var.subnet_id
-    
-    private_dns_zone_group {
-      name                           = "default"
-      private_dns_zone_ids           = [azurerm_private_dns_zone.priv_dns_zone.id]
-    }
+  name                = "Sql-Private-Endpoint"
+  location            = var.region
+  resource_group_name = var.rg_name
+  subnet_id           = var.subnet_id
 
-    private_service_connection {
-      name                           = "vmssql-private-service-connection"
-      private_connection_resource_id = azurerm_mssql_server.sqlserver.id
-      subresource_names              = ["SqlServer"]
-      is_manual_connection           = false
-    }
-    depends_on                       = [ azurerm_mssql_database.sqldatabase ]
+  private_dns_zone_group {
+    name                 = "default"
+    private_dns_zone_ids = [azurerm_private_dns_zone.priv_dns_zone.id]
+  }
+
+  private_service_connection {
+    name                           = "sql-private-service-connection"
+    private_connection_resource_id = azurerm_mssql_server.sqlserver.id
+    subresource_names              = ["SqlServer"]
+    is_manual_connection           = false
+  }
+  depends_on = [azurerm_mssql_database.sqldatabase]
 }
