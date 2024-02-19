@@ -1,7 +1,3 @@
-variable "name_construct" {
-  type        = string
-  description = "The basic name of to construct the actual name"
-}
 
 variable "rg_name" {
   type        = string
@@ -16,16 +12,16 @@ variable "region" {
 variable "vnet_id" {
   type        = string
   description = "Virtual Network Id"
+
 }
 
-variable "subnet_id" {
+variable "vnet_name" {
   type        = string
-  description = "Subnet Id"
+  description = "Virtual Network Name"
 }
 
-variable "az_keyvault_id" {
+variable "inb_subnet_address_space" {
   type        = string
-  description = "Id of the Key Vault where to store secrets"
+  description = "Address space of the Subnet that is created for Inbound Endpoint"
 
 }
-

@@ -19,15 +19,18 @@ variable "region" {
   description = "Azure region name"
 }
 
-variable "allowed_ip" {
-  type        = string
-  description = "Allowed IP address for SQL login"
-
-}
-
 variable "az_keyvalt_id" {
   type        = string
   description = "Azure Key Vault id to store the SQL database password"
 
 }
 
+variable "vnet_id" {
+  type        = string
+  description = "Virtual Network Id"
+}
+
+variable "subnet_id" {
+  type        = string
+  description = "Subnet Id"
+}

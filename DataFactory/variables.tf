@@ -37,3 +37,15 @@ variable "sql_server_connection_string_kv_secret_name" {
   type        = string
   description = "SQL connection string name in the Key Vault"
 }
+
+variable "storage_account_id" {
+  type        = string
+  description = "Storage Account Id"
+
+}
+
+variable "sql_server_id" {
+  type        = string
+  description = "SQL Server Id"
+
+}

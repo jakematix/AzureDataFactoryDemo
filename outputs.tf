@@ -9,16 +9,6 @@ output "rg_name" {
   description = "Name of the Resource Group"
 }
 
-output "blob_container_name" {
-  value       = module.StorageAccount.containername_out
-  description = "Name of the Container in the Blob Storage"
-}
-
-output "blob_file_name" {
-  value       = module.StorageAccount.blob_file_out
-  description = "Name of the file in the Blob"
-}
-
 output "sql_server_name" {
   value       = module.SqlDatabase.sql_server_name
   description = "SQL Server Name"
@@ -32,4 +22,9 @@ output "sql_secret_key_pwd" {
 output "sql_secret_key_connectionstring" {
   value       = module.SqlDatabase.sql_connection_string_kv_secret_name
   description = "Name of the secret key in the Key Vault that refers to SQL database connection string"
+}
+
+output "dns_inbound_endpoint" {
+  value       = module.PrivateDNSResolver.dns_inbound_endpoint
+  description = "DNS Inbound IP"
 }
