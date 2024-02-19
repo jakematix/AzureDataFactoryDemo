@@ -19,27 +19,33 @@ module "VirtualNetwork" {
   allowed_ip_address        = var.allowed_ip_address
 }
 
+# Creation of the Virtual Network Gateway (point-to-site) and Gateway Subnet in the Virtual Network.
+# Note that Gatewaty creation can take up to 60 minutes
+module "VirtualNetworkGateway" {
+    source                            = "./VirtualNetworkGateway"
+    region                            = var.azure_region
+    rg_name                           = module.ResourceGroup.rg_out_name
+    vnet_name                         = module.VirtualNetwork.vnet_name
+    vnet_gateway_subnet_address_space = "10.0.1.0/27"
+    p2s_address_pool                  = "172.16.201.0/24"
+}
+
+# Creation of the Private DNS Resolver with Inboound Endpoint
+module "PrivateDNSResolver" {
+    source                   = "./PrivateDNSResolver"
+    region                   = var.azure_region
+    rg_name                  = module.ResourceGroup.rg_out_name
+    vnet_id                  = module.VirtualNetwork.vnet_id
+    vnet_name                = module.VirtualNetwork.vnet_name
+    inb_subnet_address_space = "10.0.1.32/28" 
+}
+
 # Next, Create Azure Key Vault and access groups
 module "KeyVault" {
   source         = "./KeyVault"
   name_construct = var.env_name
   region         = var.azure_region
   rg_name        = module.ResourceGroup.rg_out_name
-}
-
-# Creation of the Front End VM
-# * Size: Standard B1s (1 vcpu, 1 GiB memory)
-# VM Admin username must be present in environment variable $Env:TF_VAR_vm_admin_username
-# VM Admin password must be present in environment variable $Env:TF_VAR_vm_admin_password
-module "VirtualMachine" {
-  source            = "./VirtualMachine"
-  vm_name           = "FrontEndVM"
-  region            = var.azure_region
-  rg_name           = module.ResourceGroup.rg_out_name
-  vm_size           = "Standard_B1s"
-  vm_admin_username = var.vm_admin_username
-  vm_admin_password = var.vm_admin_password
-  subnet_id         = module.VirtualNetwork.subnet_id
 }
 
 # Creation of the Storage Account
@@ -77,8 +83,6 @@ module "DataFactory" {
   sql_server_connection_string_kv_secret_name = module.SqlDatabase.sql_connection_string_kv_secret_name
   sql_server_id                               = module.SqlDatabase.sql_server_id
   storage_account_id                          = module.StorageAccount.storage_account_id
-  
-
 }
 
 
