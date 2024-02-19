@@ -39,13 +39,13 @@ variable "sql_server_connection_string_kv_secret_name" {
 }
 
 variable "storage_account_id" {
-  type = string
+  type        = string
   description = "Storage Account Id"
-  
+
 }
 
 variable "sql_server_id" {
-  type = string
+  type        = string
   description = "SQL Server Id"
-  
+
 }
