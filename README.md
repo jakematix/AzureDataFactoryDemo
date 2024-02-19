@@ -2,7 +2,7 @@
 This demo shows, how Terraform can be used to create Azure Data Factory.
 
 ## Desired Target State
-Very simple infrastructure for Azure Data Factory is created using Terraform. Connection to the Front End VM can be established using RDP (port 3389) or SSH (port 22) from the IP Address defined in environment variable `$Env:TF_VAR_allowed_ip_address`. Picture below shows the environment. 
+Very simple infrastructure for Azure Data Factory is created using Terraform. The user computer imitates to be located in on-premise network (172.16.201/16). Point-to-Site VPN Connection is established from on-premise computer to Virtual Network Gateway. Picture below shows the environment. 
 
 ![Demo Environment](/pictures/datafactorydemo.png)
 
@@ -10,13 +10,14 @@ The following resources are created by Terraform:
 
 * [Resource Group](/ResourceGroup)
 * [Network Security Group, Virtua Network and Subnet](/VirtualNetwork/)
-* [Virtual Machine](/VirtualMachine)
+* [Virtual Network Gateway](/VirtualNetworkGateway)
+* [Private DNS Resolver](/PrivateDNSResolver/)
 * [Azure Key Vault](/KeyVault)
 * [Storage Account with Private Endpoint for the VM](/StorageAccount)
 * [MS SQL Database with SQL Server with Private Endpoint for the VM](/SqlDatabase)
 * [Azure Data Factory and Pipeline, Managed Private Endpoints and Linked Services](/DataFactory)
 
-After the infrastruture is deployed, user can access the Storage Account and SQL Server from the Virtual Machine only. There are Private Endpoints for both resources. User needs to create a Blob container, upload the source file and create SQL table. Also the respective Datasets must be created in the Data Factory pipeline as well as the Copy object.
+After the infrastruture is deployed, user can access the Storage Account and SQL Server from the on-premisen computer only - no public access to the resources. There are Private Endpoints for both resources. User needs to create a Blob container, upload the source file and create SQL table. Also the respective Datasets must be created in the Data Factory pipeline as well as the Copy object.
 
 ## Description of the Terraform script
 Script is modular so that creation of each resources are done in own modules. Please, browse to the each module to see its description in README.md.
