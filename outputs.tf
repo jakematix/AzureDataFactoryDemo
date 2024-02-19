@@ -24,12 +24,7 @@ output "sql_secret_key_connectionstring" {
   description = "Name of the secret key in the Key Vault that refers to SQL database connection string"
 }
 
-output "vm_name" {
-  value       = module.VirtualMachine.vm_name
-  description = "VM Name"
-}
-
-output "vm_public_ip" {
-  value       = module.VirtualMachine.vm_public_ip
-  description = "Public IP Address of the VM"
+output "dns_inbound_endpoint" {
+  value       = module.PrivateDNSResolver.dns_inbound_endpoint
+  description = "DNS Inbound IP"
 }
