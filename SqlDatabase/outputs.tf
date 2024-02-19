@@ -11,7 +11,7 @@ output "sql_server_name" {
 }
 
 output "sql_server_id" {
-  value = resource.azurerm_mssql_server.sqlserver.id
+  value       = resource.azurerm_mssql_server.sqlserver.id
   description = "Id of the SQL Server that was created"
 }
 
