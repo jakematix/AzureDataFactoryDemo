@@ -9,9 +9,9 @@ resource "random_string" "rnd" {
 
 # Creation of Azure Data Factory with Managed Virtual Network 
 resource "azurerm_data_factory" "datafactory" {
-  name                            = "${var.name_construct}${random_string.rnd.result}"
-  location                        = var.region
-  resource_group_name             = var.rg_name
+  name                = "${var.name_construct}${random_string.rnd.result}"
+  location            = var.region
+  resource_group_name = var.rg_name
   identity {
     type = "SystemAssigned"
   }
@@ -103,10 +103,10 @@ resource "azurerm_data_factory_managed_private_endpoint" "df_managed_endpoint_sq
 # Create link to SQL Database
 # connection_string = data.azurerm_key_vault_secret.sql_conn_string.value
 resource "azurerm_data_factory_linked_service_azure_sql_database" "sqllink" {
-  name                      = "${var.name_construct}SQLLink"
-  data_factory_id           = azurerm_data_factory.datafactory.id
-  integration_runtime_name  = azurerm_data_factory_integration_runtime_azure.ir.name
-  connection_string         = data.azurerm_key_vault_secret.sql_conn_string.value
+  name                     = "${var.name_construct}SQLLink"
+  data_factory_id          = azurerm_data_factory.datafactory.id
+  integration_runtime_name = azurerm_data_factory_integration_runtime_azure.ir.name
+  connection_string        = data.azurerm_key_vault_secret.sql_conn_string.value
 }
 
 # Create a dataset to SQL table (note that the table does not exist. Need to be create using SQL before executing the demo)
