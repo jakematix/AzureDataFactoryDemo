@@ -48,12 +48,12 @@ variable "azure_region" {
 }
 
 variable "vm_admin_username" {
-  type = string
+  type        = string
   description = "Virtual Machine Admin username"
 }
 
 variable "vm_admin_password" {
-  type = string
-  sensitive = true
+  type        = string
+  sensitive   = true
   description = "VM admin password"
 }
