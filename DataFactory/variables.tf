@@ -49,3 +49,15 @@ variable "sql_server_id" {
   description = "SQL Server Id"
 
 }
+
+variable "vnet_id" {
+  type        = string
+  description = "Virtual Network Id"
+
+}
+
+variable "subnet_id" {
+  type        = string
+  description = "Subnet Id"
+
+}
