@@ -7,8 +7,8 @@ variable "sql_db_username" {
 
 variable "allowed_ip_address" {
   type        = string
-  description = "Allowed login IP address for SQL server login"
-  #    sensitive   = true
+  description = "Allowed IP Address to access the resources"
+  sensitive   = true
 }
 
 variable "demo_sub_id" {
@@ -47,13 +47,3 @@ variable "azure_region" {
   description = "Desired Azure Region"
 }
 
-variable "vm_admin_username" {
-  type        = string
-  description = "Virtual Machine Admin username"
-}
-
-variable "vm_admin_password" {
-  type        = string
-  sensitive   = true
-  description = "VM admin password"
-}
