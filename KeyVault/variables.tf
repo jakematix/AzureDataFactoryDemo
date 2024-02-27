@@ -12,3 +12,9 @@ variable "region" {
   type        = string
   description = "Azure region name"
 }
+
+variable "allowed_ip_address" {
+  type        = string
+  description = "Allowed IP Address to access"
+
+}
