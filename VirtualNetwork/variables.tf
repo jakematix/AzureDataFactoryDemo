@@ -28,8 +28,3 @@ variable "subnet_name" {
   type        = string
   description = "Name of the Subnet"
 }
-
-variable "allowed_ip_address" {
-  type        = string
-  description = "Allowed IP Address"
-}
