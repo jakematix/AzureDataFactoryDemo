@@ -18,4 +18,9 @@ resource "azurerm_key_vault" "azure_kv" {
   soft_delete_retention_days = 7
   purge_protection_enabled   = false
   enable_rbac_authorization  = true
+  network_acls {
+    bypass         = "AzureServices"
+    default_action = "Deny"
+    ip_rules       = [var.allowed_ip_address]
+  }
 }
