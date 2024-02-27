@@ -7,7 +7,8 @@ resource "random_string" "rnd" {
   upper   = false
 }
 
-# Creation of Azure Data Factory with Managed Virtual Network 
+# Creation of Azure Data Factory with Managed Virtual Network.
+# Public access is disabled.
 resource "azurerm_data_factory" "datafactory" {
   name                = "${var.name_construct}${random_string.rnd.result}"
   location            = var.region
@@ -16,6 +17,45 @@ resource "azurerm_data_factory" "datafactory" {
     type = "SystemAssigned"
   }
   managed_virtual_network_enabled = true
+  public_network_enabled          = false
+}
+
+# Create a Private DNS Zone for private endpoint to Data Factory
+resource "azurerm_private_dns_zone" "priv_dns_zone" {
+  name                = "privatelink.datafactory.azure.net"
+  resource_group_name = var.rg_name
+}
+
+
+# Create Virtual Network link for the zone
+resource "azurerm_private_dns_zone_virtual_network_link" "dns_zone_vlink" {
+  name                  = "dns-link-df"
+  resource_group_name   = var.rg_name
+  private_dns_zone_name = azurerm_private_dns_zone.priv_dns_zone.name
+  virtual_network_id    = var.vnet_id
+  depends_on            = [azurerm_private_dns_zone.priv_dns_zone]
+}
+
+
+# Creation of the Private Endpoint in the given subnet
+resource "azurerm_private_endpoint" "df_private_endpoint" {
+  name                = "DataFactory-Private-Endpoint"
+  location            = var.region
+  resource_group_name = var.rg_name
+  subnet_id           = var.subnet_id
+
+  private_dns_zone_group {
+    name                 = "default"
+    private_dns_zone_ids = [azurerm_private_dns_zone.priv_dns_zone.id]
+  }
+
+  private_service_connection {
+    name                           = "datafactory-service-connection"
+    private_connection_resource_id = azurerm_data_factory.datafactory.id
+    subresource_names              = ["dataFactory"]
+    is_manual_connection           = false
+  }
+  depends_on = [azurerm_data_factory.datafactory]
 }
 
 # Role assignment for the Data Factory as Key Vault Secrets Officer in order to get secrets from the Key Vault
@@ -72,6 +112,25 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "bloblink" {
   connection_string        = data.azurerm_key_vault_secret.storage_sec.value
   integration_runtime_name = azurerm_data_factory_integration_runtime_azure.ir.name
 }
+
+# Creation of the Managed Private Endpoint to Key Vault
+resource "azurerm_data_factory_managed_private_endpoint" "df_managed_endpoint_keyvault" {
+  name               = "${var.name_construct}-AzureKeyVault-MPE"
+  data_factory_id    = azurerm_data_factory.datafactory.id
+  target_resource_id = var.kv_id
+  subresource_name   = "vault"
+}
+
+# Creation of the Linked service to the Key Vault
+resource "azurerm_data_factory_linked_service_key_vault" "keyvaultlink" {
+  name                     = "${var.name_construct}KeyVaultLink"
+  data_factory_id          = azurerm_data_factory.datafactory.id
+  key_vault_id             = var.kv_id
+  integration_runtime_name = azurerm_data_factory_integration_runtime_azure.ir.name
+}
+
+
+
 
 # Settings for delimited text aka. CSV file
 #resource "azurerm_data_factory_dataset_delimited_text" "csvfile" {
