@@ -1,6 +1,7 @@
 # Module: DataFactory
 Creates Azure Data Factory including the following resources:
 * Data Factory with name using the environment name as the name constuctor followed by the random string
+* Public access to Data Factory is disabled and therefore creates a Private Endpoint to access the resouces securerly
 * Assigns Azure Key Vault Secrets Officer role for the Service Principal to access the Key Vault
 * Data Factory Pipeline with name using the environment name as the name constructor followed by the string "BlobToSQL"
 * Integration Runtime to server Managed Private Endpoints
@@ -18,6 +19,8 @@ Creates Azure Data Factory including the following resources:
 * `sql_server_connection_string_kv_secret_name`- Name of the Sectet in the Ket Vault that contains SQL Server connection string
 * `storage_account_id`- Storage Account Id that is needed for Managed Private Endopoint
 * `sql_server_id` - SQL Server Id that is needed for Managed Private Endpoint
+* `vnet_id` - Virtual Network Id for Private Endpoint
+* `subnet_id` - Subnet Id for Private Endpoint
 
 ## Outputs in `outputs.tf`
 * `data_factory_id` - Id of the created Data Factory
